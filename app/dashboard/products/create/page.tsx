@@ -1,14 +1,26 @@
+"use client";
+import { UploadDropzone } from "@/app/lib/uploadthing";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { SelectValue } from "@radix-ui/react-select";
+import { error } from "console";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -49,8 +61,39 @@ export default function ProductCreateRoute() {
               <Label>Price</Label>
               <Input type="number" placeholder="$55" />
             </div>
+            <div className="flex flex-col gap-3">
+              <Label>Featured Product</Label>
+              <Switch />
+            </div>
+            <div className="flex flex-col gap-3">
+              <Label>Status</Label>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="draft">Draft</SelectItem>
+                  <SelectItem value="published">Published</SelectItem>
+                  <SelectItem value="archive">Archive</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <Label>Images</Label>
+              <UploadDropzone
+                endpoint="imageUploader"
+                onClientUploadComplete={(res) => alert("Finished uploading")}
+                onUploadError={(error) => {
+                  alert("Something went wrong");
+                }}
+              />
+            </div>
           </div>
         </CardContent>
+        <CardFooter>
+          <Button>Create Product</Button>
+        </CardFooter>
       </Card>
     </form>
   );
